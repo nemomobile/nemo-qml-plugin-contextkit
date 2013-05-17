@@ -73,7 +73,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Core_EXECUTABLE_COMPILE_FLAGS} ${Qt
 set(CMAKE_CXX_FLAGS
   "${CMAKE_CXX_FLAGS} -fPIC -W -Wall -Wextra -Werror -Wno-psabi -g -O2")
 
-set(SRC plugin-qt5.cpp ck_property.cpp)
+set_source_files_properties(moc_plugin-qt5.cpp PROPERTIES GENERATED true)
+add_custom_command(OUTPUT moc_plugin-qt5.cpp COMMAND moc -DQT_PLUGIN -DQT_QUICK_LIB -DQT_QML_LIB -DQT_CORE_LIB -I/usr/include/qt5/QtCore -I/usr/include/qt5 -I/usr/include/qt5/QtQuick -I/usr/include/qt5/QtQml plugin-qt5.hpp -o moc_plugin-qt5.cpp)
+
+set(SRC plugin-qt5.cpp ck_property.cpp moc_plugin-qt5.cpp)
 set(HDRS ck_property.hpp)
 add_library(${NAME} MODULE ${SRC})
 
